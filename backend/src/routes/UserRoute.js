@@ -7,26 +7,26 @@ import { RefreshTheToken } from "../controller/UserController.js";
 import { Authentication } from "../middleware/AuthMiddleware.js";
 
 
-const router = Router();
+const userrouter = Router();
 
-router.route("/signup").post(
+userrouter.route("/signup").post(
     SignUp
 )
 
-router.route("/login").post(
+userrouter.route("/login").post(
     Login
 )
 
-router.route("/profile").get(
+userrouter.route("/profile").get(
     Authentication, GetUser
 )
 
-router.route("/logout").post(
+userrouter.route("/logout").post(
     Authentication, Logout
 )
 
-router.route("/refreshtoken").post(
+userrouter.route("/refreshtoken").post(
     RefreshTheToken
 )
 
-export { router }
+export { userrouter }

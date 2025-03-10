@@ -93,7 +93,7 @@ const Login = AsyncHandler(async (req, res) => {
 
     const option = {
         httpOnly: true,
-        // secure : true 
+        secure : true 
     }
 
     return res.status(200)
@@ -143,7 +143,7 @@ const Logout = AsyncHandler(async (req, res) => {
 
     const Option = {
         httpOnly: true,
-        // secure: true
+        secure: true
     }
 
     return res.status(200)
@@ -186,7 +186,7 @@ const RefreshTheToken = AsyncHandler(async (req, res) => {
 
     const Option = {
         httpOnly: true,
-        // secure: true
+        secure: true
     }
 
     const { RefreshToken, AccessToken } = await GenerateRefreshAndAccessToken(user)
