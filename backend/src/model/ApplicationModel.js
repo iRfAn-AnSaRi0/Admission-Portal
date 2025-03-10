@@ -23,9 +23,9 @@ const studentSchema = new Schema({
         enum: ["Male", "Female", "Other"],
         required: true
     },
-    result12: {
+    result:{
         type: String,
-
+        required: true
     },
     state: {
         type: String,

@@ -1,13 +1,14 @@
 import { AsyncHandler } from "../utils/AsyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { StudentDetails } from "../model/Enrollment.js";
+import { StudentDetails } from "../model/ApplicationModel.js";
+import { UploadFile } from "../utils/Cloudinary.js";
 import mongoose from "mongoose";
 
 
 
 const Application = AsyncHandler(async (req, res) => {
-    const { name, email, phone, DOB, gender, result12, state, city, address, course } = req.body;
+    const { name, email, phone, DOB, gender, state, city, address, course } = req.body;
 
     if (!name || !email || !phone || !DOB || !gender || !state || !city || !address || !course) {
         throw new ApiError(400, "All fields are required.");
@@ -27,11 +28,18 @@ const Application = AsyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid phone number. Must be 10 digits.");
     }
 
-
     if (isNaN(new Date(DOB))) {
         throw new ApiError(400, "Invalid Date of Birth.");
     }
 
+    const fileLocalPath = req.files.result[0].path;
+    if (!fileLocalPath) {
+        throw new ApiError(400, "Avatar image is required")
+    }
+    const fileUpload = await UploadFile(fileLocalPath);
+    if (!fileUpload) {
+        throw new ApiError(400, "Avatar image is required")
+    }
 
     const student = await StudentDetails.create({
         name,
@@ -39,7 +47,7 @@ const Application = AsyncHandler(async (req, res) => {
         phone,
         DOB,
         gender,
-        result12,
+        result:fileUpload.url,
         state,
         city,
         address,

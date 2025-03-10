@@ -4,15 +4,15 @@ import bcrypt from "bcrypt"
 const adminSchema = new Schema({
     adminname: {
         type: String,
-        require: true
+        required: true
     },
     adminemail: {
         type: String,
-        require: true
+        required: true
     },
     adminpassword: {
         type: String,
-        require: true
+        required: true
     }
 }, { timestamps: true })
 
