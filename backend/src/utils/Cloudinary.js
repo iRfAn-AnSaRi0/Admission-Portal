@@ -20,6 +20,13 @@ const UploadFile = async (localFilePath) => {
             
         )
         console.log(response.url);
+        fs.unlink(localFilePath, (err) => {
+            if (err) {
+                console.error("Error deleting file:", err);
+            } else {
+                console.log("Local file deleted:", localFilePath);
+            }
+        });
         return response;
     } catch (error) {
         fs.unlinkSync(localFilePath)
