@@ -7,14 +7,14 @@ import { Upload } from "../middleware/MulterMiddleware.js";
 const applicationrouter = Router()
 
 applicationrouter.route("/apply").post(
-    //  Authentication , 
+    Authentication , 
     Upload.single("result"), 
     Application
 )
 
-// Not Tested APIs
-applicationrouter.route("/:id/update/application").put(
-    //  Authentication , 
+
+applicationrouter.route("/update/application/:id").put(
+    Authentication , 
     ApplicationUpdate
 )
 

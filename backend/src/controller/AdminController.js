@@ -170,5 +170,27 @@ const ApplicationCheck = AsyncHandler(async (req, res) => {
 
 })
 
+const Applications = AsyncHandler(async(req, res)=>{
+     const getApplication = await StudentDetails.find();
+    
+    
+        if (getApplication.length === 0) {
+            return res.status(200).json(
+                new ApiResponse(
+                    200,
+                    "No Application Found"
+                )
+            )
+        }
+    
+        return res.status(200).json(
+            new ApiResponse(
+                200,
+                getApplication,
+                "Application Found"
+            )
+        )
+})
 
-export { AdminSignUp, AdminLogin, AdminLogout, ApplicationCheck }
+
+export { AdminSignUp, AdminLogin, AdminLogout, ApplicationCheck, Applications }

@@ -3,6 +3,7 @@ import { AdminSignUp } from "../controller/AdminController.js";
 import { AdminLogin } from "../controller/AdminController.js";
 import { AdminLogout } from "../controller/AdminController.js";
 import { ApplicationCheck } from "../controller/AdminController.js";
+import { Applications } from "../controller/AdminController.js";
 import { Authentication } from "../middleware/AuthMiddleware.js";
 
 
@@ -21,9 +22,14 @@ adminrouter.route("/logout").post(
    Authentication, AdminLogout
 )
 
-// Not Tested APIs
 adminrouter.route("/:id/appliaction").put(
-    Authentication,  ApplicationCheck
+    Authentication,  
+    ApplicationCheck
+)
+
+adminrouter.route("/applications").get(
+    Authentication,
+    Applications
 )
 
 export { adminrouter }

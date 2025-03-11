@@ -31,6 +31,7 @@ const Application = AsyncHandler(async (req, res) => {
     if (isNaN(new Date(DOB))) {
         throw new ApiError(400, "Invalid Date of Birth.");
     }
+    const formattedDOB = new Date(DOB).toISOString().split('T')[0];
     console.log("File received:", req.file);
 
     const fileLocalPath = req.file?.path;
@@ -40,7 +41,7 @@ const Application = AsyncHandler(async (req, res) => {
 
     const fileUpload = await UploadFile(fileLocalPath);
     if (!fileUpload) {
-        throw new ApiError(400, "Avatar image is required")
+        throw new ApiError(400, "Result image is required")
     }
 
     const student = await StudentDetails.create({
@@ -76,9 +77,9 @@ const Application = AsyncHandler(async (req, res) => {
 })
 
 const ApplicationUpdate = AsyncHandler(async (req, res) => {
-    const ApplicationId = await StudentDetails.findById(req.params.id);
 
-    const { name, email, phone, DOB, gender, result12, state, city, address, course } = req.body;
+    const { name, email, phone, DOB, gender, state, city, address, course } = req.body;
+    const ApplicationId = await StudentDetails.findById(req.params.id);
 
     if (!name || !email || !phone || !DOB || !gender || !state || !city || !address || !course) {
         throw new ApiError(400, "All fields are required.");
@@ -103,12 +104,29 @@ const ApplicationUpdate = AsyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid Date of Birth.");
     }
 
+    const formattedDOB = new Date(DOB).toISOString().split('T')[0];
+
+    let updatedResult = ApplicationId.result; // Retain existing image by default
+    const fileLocalPath = req.file?.path;
+
+    if (fileLocalPath) {
+        const fileUpload = await UploadFile(fileLocalPath);
+
+        if (!fileUpload) {
+            throw new ApiError(400, "Result file upload failed.");
+        }
+
+        updatedResult = fileUpload.url;
+    }
+
+
+
     ApplicationId.name = name || ApplicationId.name;
     ApplicationId.email = email || ApplicationId.email;
     ApplicationId.phone = phone || ApplicationId.phone;
     ApplicationId.DOB = DOB || ApplicationId.DOB;
     ApplicationId.gender = gender || ApplicationId.gender;
-    ApplicationId.result12 = result12 || ApplicationId.result12;
+    ApplicationId.result = updatedResult
     ApplicationId.state = state || ApplicationId.state;
     ApplicationId.city = city || ApplicationId.city;
     ApplicationId.address = address || ApplicationId.address;
