@@ -8,12 +8,7 @@ const applicationrouter = Router()
 
 applicationrouter.route("/apply").post(
     //  Authentication , 
-    Upload.fields([
-        {
-         name:"result",
-         maxCount:1
-        }
-     ]),  
+    Upload.single("result"), 
     Application
 )
 

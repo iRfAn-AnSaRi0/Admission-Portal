@@ -31,11 +31,13 @@ const Application = AsyncHandler(async (req, res) => {
     if (isNaN(new Date(DOB))) {
         throw new ApiError(400, "Invalid Date of Birth.");
     }
+    console.log("File received:", req.file);
 
-    const fileLocalPath = req.files.result[0].path;
+    const fileLocalPath = req.file?.path;
     if (!fileLocalPath) {
-        throw new ApiError(400, "Avatar image is required")
+        throw new ApiError(400, "Result file is required.");
     }
+
     const fileUpload = await UploadFile(fileLocalPath);
     if (!fileUpload) {
         throw new ApiError(400, "Avatar image is required")
@@ -47,7 +49,7 @@ const Application = AsyncHandler(async (req, res) => {
         phone,
         DOB,
         gender,
-        result:fileUpload.url,
+        result: fileUpload.url,
         state,
         city,
         address,

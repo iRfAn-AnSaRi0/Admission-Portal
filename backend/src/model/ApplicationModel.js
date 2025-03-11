@@ -25,7 +25,7 @@ const studentSchema = new Schema({
     },
     result:{
         type: String,
-        required: true
+        // required: true
     },
     state: {
         type: String,
