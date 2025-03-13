@@ -66,11 +66,11 @@ npm start
 - **`PUT update/application/:id`** → Update application
 
 ### **Admin Routes**
-- **`POST /user/signup`** → Admin Register
-- **`POST /user/login`** → Admin Login with email and password
-- **`POST /user/logout`** → Admin Logout the current session
-- **`PUT /:id/appliaction`** → Update application status
-- **`GET /applications`** → Get all application
+- **`POST /admin/signup`** → Admin Register
+- **`POST /admin/login`** → Admin Login with email and password
+- **`POST /admin/logout`** → Admin Logout the current session
+- **`PUT /admin/:id/appliaction`** → Update application status
+- **`GET /admin/applications`** → Get all application
 ---
 
 ## Folder Structure
