@@ -20,6 +20,6 @@ import { adminrouter } from './routes/AdminRoute.js';
 
 app.use("/user", userrouter)
 app.use(applicationrouter)
-app.use(adminrouter)
+app.use("/admin", adminrouter)
 
 export { app };

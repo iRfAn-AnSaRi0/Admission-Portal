@@ -8,13 +8,13 @@ import bcrypt from "bcrypt"
 import mongoose from "mongoose";
 
 const GenerateJWTToken = async (admin) => {
-    const AccessToken = jwt.sign(
+    const Token = jwt.sign(
         { id: admin.id },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
     )
 
-    return { AccessToken }
+    return { Token }
 }
 
 
@@ -92,20 +92,20 @@ const AdminLogin = AsyncHandler(async (req, res) => {
         )
     }
 
-    const { AccessToken } = await GenerateJWTToken(admin);
+    const { Token } = await GenerateJWTToken(admin);
 
     const option = {
         httpOnly: true,
-        // secure : true 
+        secure : true 
     }
 
     return res.status(200)
-        .cookie("AccessToken", AccessToken, option)
+        .cookie("Token", Token, option)
         .json(
             new ApiResponse(
                 200,
                 {
-                    AccessToken,
+                    Token,
                     admin: {
                         id: admin._id,
                         adminname: admin.adminname,

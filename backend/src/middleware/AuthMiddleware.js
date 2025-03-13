@@ -9,22 +9,25 @@ import jwt from "jsonwebtoken"
 const Authentication = AsyncHandler(async (req, _, next) => {
 
     try {
-        const token = req.cookies?.AccessToken || (authHeader && authHeader.startsWith("Bearer", "") ? authHeader.slice(7) : null)
-        console.log(token);
+        const usertoken = req.cookies?.AccessToken || (authHeader && authHeader.startsWith("Bearer", "") ? authHeader.slice(7) : null)
+        console.log(usertoken);
+        const admintoken = req.cookies?.Token || (authHeader && authHeader.startsWith("Bearer", "") ? authHeader.slice(7) : null)
+        console.log(admintoken);
 
-        if (!token) {
+        if (!usertoken && admintoken) {
             throw new ApiError(401, "Unauthorized Access")
         }
 
-        const Decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        const UserDecode = jwt.verify(usertoken, process.env.ACCESS_TOKEN_SECRET);
+        const AdminDecode = jwt.verify(admintoken, process.env.ACCESS_TOKEN_SECRET);
 
-        const user = await UserDetails.findById(Decode.id)
-        const admin = await AdminDetails.findById(Decode.id)
+        const user = await UserDetails.findById(UserDecode.id)
+        const admin = await AdminDetails.findById(AdminDecode.id)
 
         if (!user && !admin) {
             throw new ApiError(401, "Invalid User")
         }
-        req.user = user
+        req.user = user || admin;
         next()
     } catch (error) {
         throw new ApiError(401, error?.message || "Invalid Token")
