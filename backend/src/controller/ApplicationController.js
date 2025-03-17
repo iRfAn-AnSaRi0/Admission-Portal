@@ -2,10 +2,9 @@ import { AsyncHandler } from "../utils/AsyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { StudentDetails } from "../model/ApplicationModel.js";
+import { UserDetails } from "../model/UserModel.js";
 import { UploadFile } from "../utils/Cloudinary.js";
 import mongoose from "mongoose";
-
-
 
 const Application = AsyncHandler(async (req, res) => {
     const { name, email, phone, DOB, gender, state, city, address, course } = req.body;
@@ -44,6 +43,8 @@ const Application = AsyncHandler(async (req, res) => {
         throw new ApiError(400, "Result image is required")
     }
 
+    const user = req.user.id
+
     const student = await StudentDetails.create({
         name,
         email,
@@ -56,6 +57,13 @@ const Application = AsyncHandler(async (req, res) => {
         address,
         course
     });
+
+    await UserDetails.findByIdAndUpdate(
+        user,
+        { $push: { appliactionId: student._id } },
+        { new: true } 
+    );
+    console.log(student);
 
 
     if (student) {

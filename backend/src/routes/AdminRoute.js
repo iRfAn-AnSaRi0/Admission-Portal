@@ -4,7 +4,7 @@ import { AdminLogin } from "../controller/AdminController.js";
 import { AdminLogout } from "../controller/AdminController.js";
 import { ApplicationCheck } from "../controller/AdminController.js";
 import { Applications } from "../controller/AdminController.js";
-import { Authentication } from "../middleware/AuthMiddleware.js";
+import { AdminAuthentication } from "../middleware/AuthMiddleware.js";
 import { GetApplication } from "../controller/AdminController.js";
 
 
@@ -20,20 +20,20 @@ adminrouter.route("/login").post(
 )
 
 adminrouter.route("/logout").post(
-//    Authentication,
+    AdminAuthentication,
     AdminLogout
 )
 
 adminrouter.route("/:id/application").put(
-    //  Authentication,  
+    AdminAuthentication,
     ApplicationCheck
 )
 adminrouter.route("/application/:id").get(
-    // Authentication,  
+    AdminAuthentication,
     GetApplication
 )
 adminrouter.route("/applications").get(
-    // Authentication,
+    AdminAuthentication,
     Applications
 )
 

@@ -6,35 +6,58 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken"
 
 
-const Authentication = AsyncHandler(async (req, _, next) => {
+const UserAuthentication = AsyncHandler(async (req, _, next) => {
 
     try {
         const usertoken = req.cookies?.AccessToken || (authHeader && authHeader.startsWith("Bearer", "") ? authHeader.slice(7) : null)
-        // console.log(usertoken);
-        
-        const admintoken = req.cookies?.Token || (authHeader && authHeader.startsWith("Bearer", "") ? authHeader.slice(7) : null)
-        console.log(admintoken);
+        console.log(usertoken);
 
-        if (!usertoken && admintoken) {
-            return res.stayus(401).json(
+        if (!usertoken) {
+            return res.status(401).json(
                 new ApiError(401, "Unauthorized Access")
             )
         }
 
         const UserDecode = jwt.verify(usertoken, process.env.ACCESS_TOKEN_SECRET);
-        const AdminDecode = jwt.verify(admintoken, process.env.ACCESS_TOKEN_SECRET);
+       
 
         const user = await UserDetails.findById(UserDecode.id)
-        const admin = await AdminDetails.findById(AdminDecode.id)
+       
 
-        if (!user && !admin) {
+        if (!user) {
             throw new ApiError(401, "Invalid User")
         }
-        req.user = user || admin;
+        req.user = user;
         next()
     } catch (error) {
         throw new ApiError(401, error?.message || "Invalid Token")
     }
 })
 
-export { Authentication }
+const AdminAuthentication = AsyncHandler(async (req, _, next) => {
+
+    try {
+          const admintoken = req.cookies?.Token || (authHeader && authHeader.startsWith("Bearer", "") ? authHeader.slice(7) : null)
+          console.log(admintoken);
+
+        if (!admintoken) {
+            return res.status(401).json(
+                new ApiError(401, "Unauthorized Access")
+            )
+        }
+         const AdminDecode = jwt.verify(admintoken, process.env.ACCESS_TOKEN_SECRET);
+
+         const admin = await AdminDetails.findById(AdminDecode.id)
+
+        if (!admin) {
+            throw new ApiError(401, "Invalid Admin")
+        }
+        req.user = admin;
+        next()
+    } catch (error) {
+        throw new ApiError(401, error?.message || "Invalid Token")
+    }
+})
+
+
+export { UserAuthentication, AdminAuthentication }

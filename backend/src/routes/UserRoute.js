@@ -4,7 +4,7 @@ import { Login } from "../controller/UserController.js";
 import { GetUser } from "../controller/UserController.js";
 import { Logout } from "../controller/UserController.js";
 import { RefreshTheToken } from "../controller/UserController.js";
-import { Authentication } from "../middleware/AuthMiddleware.js";
+import { UserAuthentication } from "../middleware/AuthMiddleware.js";
 
 
 const userrouter = Router();
@@ -18,11 +18,11 @@ userrouter.route("/login").post(
 )
 
 userrouter.route("/profile").get(
-    Authentication, GetUser
+    UserAuthentication, GetUser
 )
 
 userrouter.route("/logout").post(
-    Authentication, Logout
+    UserAuthentication, Logout
 )
 
 userrouter.route("/refreshtoken").post(

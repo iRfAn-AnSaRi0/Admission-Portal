@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt"
+import { type } from "os";
 
 const userSchema = new Schema({
     username: {
@@ -14,6 +15,10 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    appliactionId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "StudentDetails"
     },
     refreshtoken: {
         type: String

@@ -17,7 +17,6 @@ const GenerateJWTToken = async (admin) => {
     return { Token }
 }
 
-
 const AdminSignUp = AsyncHandler(async (req, res) => {
     const { adminname, adminemail, adminpassword } = req.body
 
@@ -120,11 +119,11 @@ const AdminLogin = AsyncHandler(async (req, res) => {
 const AdminLogout = AsyncHandler(async (_, res) => {
     const Option = {
         httpOnly: true,
-        // secure: true
+        secure: true
     }
 
     return res.status(200)
-        .clearCookie("AccessToken", Option)
+        .clearCookie("Token", Option)
         .json(
             new ApiResponse(
                 200,
