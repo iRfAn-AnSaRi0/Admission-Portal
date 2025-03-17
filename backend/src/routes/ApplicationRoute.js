@@ -14,7 +14,7 @@ applicationrouter.route("/apply").post(
 
 
 applicationrouter.route("/update/application/:id").put(
-    Authentication , 
+     Authentication, 
     ApplicationUpdate
 )
 

@@ -10,12 +10,15 @@ const Authentication = AsyncHandler(async (req, _, next) => {
 
     try {
         const usertoken = req.cookies?.AccessToken || (authHeader && authHeader.startsWith("Bearer", "") ? authHeader.slice(7) : null)
-        console.log(usertoken);
+        // console.log(usertoken);
+        
         const admintoken = req.cookies?.Token || (authHeader && authHeader.startsWith("Bearer", "") ? authHeader.slice(7) : null)
         console.log(admintoken);
 
         if (!usertoken && admintoken) {
-            throw new ApiError(401, "Unauthorized Access")
+            return res.stayus(401).json(
+                new ApiError(401, "Unauthorized Access")
+            )
         }
 
         const UserDecode = jwt.verify(usertoken, process.env.ACCESS_TOKEN_SECRET);

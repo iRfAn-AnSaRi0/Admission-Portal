@@ -170,6 +170,23 @@ const ApplicationCheck = AsyncHandler(async (req, res) => {
 
 })
 
+const GetApplication = AsyncHandler(async (req, res) => {
+    const application = await StudentDetails.findById(req.params.id);
+
+    if (!application) {
+        throw new ApiError(404, "Application not found");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200,
+            application ,
+            "Application fetched successfully"
+           
+        )
+    );
+});
+
+
 const Applications = AsyncHandler(async(req, res)=>{
      const getApplication = await StudentDetails.find();
     
@@ -193,4 +210,4 @@ const Applications = AsyncHandler(async(req, res)=>{
 })
 
 
-export { AdminSignUp, AdminLogin, AdminLogout, ApplicationCheck, Applications }
+export { AdminSignUp, AdminLogin, AdminLogout, ApplicationCheck, GetApplication, Applications }
