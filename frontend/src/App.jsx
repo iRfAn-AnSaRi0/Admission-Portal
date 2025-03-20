@@ -1,5 +1,6 @@
 import React from "react"
 import LandingPage from "./pages/LandingPage"
+import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginAndSignup from "./admin/LoginAndSignup";
 import ApplicationDeatils from "./admin/ApplicationDeatils";

@@ -17,9 +17,11 @@ app.use(cookieparser());
 import { userrouter } from './routes/UserRoute.js';
 import { applicationrouter } from './routes/ApplicationRoute.js';
 import { adminrouter } from './routes/AdminRoute.js';
+import { dataroute } from './MasterDataRoutes/MasterDataRoutes.js';
 
 app.use("/user", userrouter)
 app.use(applicationrouter)
 app.use("/admin", adminrouter)
+app.use(dataroute)
 
 export { app };
